@@ -1,0 +1,23 @@
+{
+  "name": "react-native-pushy-notifications",
+  "version": "0.1.0",
+  "description": "React Native module for the Pushy notifications service.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "pushy"
+  ],
+  "author": "Joe Leonard <joeleonard@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react-native": "^0.41.2"
+  },
+  "dependencies": {
+    "babel-eslint": "^7.2.2",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^6.10.3"
+  }
+}
