@@ -1,6 +1,6 @@
 
 #import "RNPushyNotifications.h"
-#import <PushySDK/PushySDK-Swift.h>
+#import "PushySDK-Swift.h"
 
 @import UserNotifications;
 
