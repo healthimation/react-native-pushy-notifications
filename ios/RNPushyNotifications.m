@@ -2,9 +2,12 @@
 #import "RNPushyNotifications.h"
 #import <PushySDK/PushySDK-Swift.h>
 
+@import UserNotifications;
+
 @implementation RNPushyNotifications
 
 NSString *NOTIFICATION_EVENT = @"NotificationReceived";
+NSString *USER_INTERACTION = @"userInteraction";
 
 Pushy *pushy;
 
@@ -15,6 +18,45 @@ Pushy *pushy;
     return dispatch_get_main_queue();
 }
 RCT_EXPORT_MODULE();
+
+// + (void) didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull RCTRemoteNotificationCallback)completionHandler {
+//   NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary: userInfo];
+//   [data setValue:@(RCTSharedApplication().applicationState == UIApplicationStateInactive) forKey:USER_INTERACTION];
+//   [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:@{@"data": data, @"completionHandler": completionHandler}];
+// }
+//
+// + (void)didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(nonnull RCTNotificationResponseCallback)completionHandler {
+//   NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
+//   [data setValue:@YES forKey:USER_INTERACTION];
+//   [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:@{@"data": data, @"completionHandler": completionHandler}];
+// }
+//
+// + (void)willPresentNotification:(UNNotification *)notification withCompletionHandler:(nonnull RCTWillPresentNotificationCallback)completionHandler {
+//   NSMutableDictionary* data = [[NSMutableDictionary alloc] initWithDictionary: notification.request.content.userInfo];
+//   [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:@{@"data": data, @"completionHandler": completionHandler}];
+// }
+
+//Is this even needed?
+- (void)setBridge:(RCTBridge *)bridge {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotificationReceived:) name:NOTIFICATION_EVENT object:nil];
+}
+
+//Is this even needed?
+- (void)handleNotificationReceived:(NSNotification *)notification {
+  id completionHandler = notification.userInfo[@"completionHandler"];
+  NSMutableDictionary* data = notification.userInfo[@"data"];
+  if(completionHandler != nil){
+    NSString *completionHandlerId = [[NSUUID UUID] UUIDString];
+    if (!self.notificationCallbacks) {
+      // Lazy initialization
+      self.notificationCallbacks = [NSMutableDictionary dictionary];
+    }
+    self.notificationCallbacks[completionHandlerId] = completionHandler;
+    data[@"_completionHandlerId"] = completionHandlerId;
+  }
+
+  [self.bridge.eventDispatcher sendDeviceEventWithName:FCMNotificationReceived body:data];
+}
 
 //Configure: Listen and register device w/ Pushy
 RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
@@ -36,6 +78,8 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
         NSLog(@"Received notification: %@", data);
 
         NSString* messageValue = [data objectForKey:@"message"];
+
+        [data setValue:@YES forKey:USER_INTERACTION]; //Is this the case? Do we know this yet?
 
         // // Fallback message containing data payload
         // NSString *message = [NSString stringWithFormat:@"%@", data];
@@ -64,6 +108,8 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
 
         // // Show the alert dialog
         // [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+
+        [self sendEvent:data];
 
         // You must call this completion handler when you finish processing
         // the notification (after fetching background data, if applicable)

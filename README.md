@@ -25,20 +25,20 @@
   - Add `import com.gijoehosaphat.RNPushyNotificationsPackage;` to the imports at the top of the file
   - Add `new RNPushyNotificationsPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
-  	```
+  	```groovy
   	include ':react-native-pushy-notifications'
   	project(':react-native-pushy-notifications').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-pushy-notifications/android')
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
+  	```groovy
       compile project(':react-native-pushy-notifications')
   	```
 
 ### Extra Installation steps
 
 #### Android
-  1. AndroidManifest
-    ```
+  1. AndroidManifest:
+    ```xml
     <!-- Pushy Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -79,8 +79,8 @@
     <service android:name="me.pushy.sdk.services.PushySocketService"/>
     <!-- End Pushy Declarations -->
     ```
-  2. Proguard changes (if you use Proguard)
-    ```
+  2. Proguard changes (if you use Proguard):
+    ```bash
       -dontwarn com.fasterxml.**
       -dontwarn org.eclipse.paho.client.mqttv3.**
 
