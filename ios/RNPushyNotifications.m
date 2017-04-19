@@ -1,6 +1,7 @@
 
 #import "RNPushyNotifications.h"
 #import <PushySDK/PushySDK-Swift.h>
+#import <React/RCTEventDispatcher.h>
 
 @import UserNotifications;
 
@@ -37,26 +38,26 @@ RCT_EXPORT_MODULE();
 // }
 
 //Is this even needed?
-- (void)setBridge:(RCTBridge *)bridge {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotificationReceived:) name:NOTIFICATION_EVENT object:nil];
-}
+// - (void)setBridge:(RCTBridge *)bridge {
+//   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotificationReceived:) name:NOTIFICATION_EVENT object:nil];
+// }
 
 //Is this even needed?
-- (void)handleNotificationReceived:(NSNotification *)notification {
-  id completionHandler = notification.userInfo[@"completionHandler"];
-  NSMutableDictionary* data = notification.userInfo[@"data"];
-  if(completionHandler != nil){
-    NSString *completionHandlerId = [[NSUUID UUID] UUIDString];
-    if (!self.notificationCallbacks) {
-      // Lazy initialization
-      self.notificationCallbacks = [NSMutableDictionary dictionary];
-    }
-    self.notificationCallbacks[completionHandlerId] = completionHandler;
-    data[@"_completionHandlerId"] = completionHandlerId;
-  }
-
-  [self.bridge.eventDispatcher sendDeviceEventWithName:FCMNotificationReceived body:data];
-}
+// - (void)handleNotificationReceived:(NSNotification *)notification {
+//   id completionHandler = notification.userInfo[@"completionHandler"];
+//   NSMutableDictionary* data = notification.userInfo[@"data"];
+//   if(completionHandler != nil){
+//     NSString *completionHandlerId = [[NSUUID UUID] UUIDString];
+//     if (!self.notificationCallbacks) {
+//       // Lazy initialization
+//       self.notificationCallbacks = [NSMutableDictionary dictionary];
+//     }
+//     self.notificationCallbacks[completionHandlerId] = completionHandler;
+//     data[@"_completionHandlerId"] = completionHandlerId;
+//   }
+//
+//   [self.bridge.eventDispatcher sendDeviceEventWithName:FCMNotificationReceived body:data];
+// }
 
 //Configure: Listen and register device w/ Pushy
 RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
@@ -66,7 +67,7 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
     [pushy register:^(NSError *error, NSString* deviceToken) {
       if (error != nil) { // Handle registration errors
         NSLog (@"Registration failed: %@", error);
-        reject(error);
+        reject(@"registration_failed", @"Registration failed: ", error);
         return ;
       }
 
@@ -119,7 +120,7 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
       resolve(deviceToken);
     }];
   } @catch (NSException *exception) {
-    reject(exception);
+    reject(@"configure_failed", @"Configure failed: ", exception);
   }
 }
 
@@ -129,7 +130,7 @@ RCT_EXPORT_METHOD(subscribe:(NSString *)topic resolver:(RCTPromiseResolveBlock)r
     [pushy subscribeWithTopic:topic handler:^(NSError *error) {
         if (error != nil) { // Handle errors
           NSLog(@"Subscribe failed: %@", error);
-          reject(error);
+          reject(@"subscribe_failed", @"Subscribe failed: ", error);
           return;
         }
         // Otherwise, subscribe successful
@@ -137,7 +138,7 @@ RCT_EXPORT_METHOD(subscribe:(NSString *)topic resolver:(RCTPromiseResolveBlock)r
         NSLog(@"Subscribed to topic successfully");
     }];
   } @catch (NSException *exception) {
-    reject(exception);
+    reject(@"subsctibe_failed", @"Subscribe failed: ", exception);
   }
 }
 
@@ -147,7 +148,7 @@ RCT_EXPORT_METHOD(unsubscribe:(NSString *)topic resolver:(RCTPromiseResolveBlock
     [pushy unsubscribeWithTopic:@"news" handler:^(NSError *error) {
       if (error != nil) { // Handle unsubscribe errors
         NSLog(@"Unsubscribe failed: %@", error);
-        reject(error);
+        reject(@"unsubscribe_failed", @"Unsubscribe failed: ", error);
         return;
       }
       // Otherwise, unsubscribe successful
@@ -155,7 +156,7 @@ RCT_EXPORT_METHOD(unsubscribe:(NSString *)topic resolver:(RCTPromiseResolveBlock
       NSLog(@"Unsubscribed from topic successfully");
     }];
   } @catch (NSException *exception) {
-    reject(exception);
+    reject(@"unsubscribe_failed", @"Unsubscribe failed: ", exception);
   }
 }
 
