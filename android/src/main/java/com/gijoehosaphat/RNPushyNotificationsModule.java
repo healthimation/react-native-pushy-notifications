@@ -25,6 +25,7 @@ import java.util.Set;
 public class RNPushyNotificationsModule extends ReactContextBaseJavaModule implements AsyncResponse, LifecycleEventListener {
   public static final String TAG = "RNPushyNotifications";
   public static final String NOTIFICATION_ACTION = "com.gijoehosaphat.pushy.me";
+  public static final String INITIAL_NOTIFICATION = "initialNotification";
   public static final String USER_INTERACTION = "userInteraction";
   public static final String NOTIFICATION_EVENT = "NotificationReceived";
   public static boolean isActive = false;
@@ -111,7 +112,8 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
       Activity activity = getCurrentActivity();
       if (activity != null) {
         Intent intent = activity.getIntent();
-        intent.putExtra("userInteraction", true);
+        intent.putExtra(USER_INTERACTION, true);
+        intent.putExtra(INITIAL_NOTIFICATION, true);
         RNPushyNotificationsModule.sendEvent(intent);
         Log.d(TAG, "Initial notification event sent.");
       }
@@ -153,7 +155,8 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
     Activity activity = getCurrentActivity();
     if (activity != null) {
       Intent intent = activity.getIntent();
-      intent.putExtra("userInteraction", true);
+      intent.putExtra(USER_INTERACTION, true);
+      intent.putExtra(INITIAL_NOTIFICATION, false);
       RNPushyNotificationsModule.sendEvent(intent);
     }
   }
