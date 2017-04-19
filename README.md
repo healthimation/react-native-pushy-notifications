@@ -37,7 +37,7 @@
 ### Extra Installation steps
 
 #### Android
-  1. AndroidManifest:
+1. AndroidManifest:
     ```xml
     <!-- Pushy Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -79,7 +79,7 @@
     <service android:name="me.pushy.sdk.services.PushySocketService"/>
     <!-- End Pushy Declarations -->
     ```
-  2. Proguard changes (if you use Proguard):
+2. Proguard changes (if you use Proguard):
     ```bash
       -dontwarn com.fasterxml.**
       -dontwarn org.eclipse.paho.client.mqttv3.**
