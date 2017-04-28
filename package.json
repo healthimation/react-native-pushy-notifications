@@ -1,7 +1,7 @@
 {
   "name": "react-native-pushy-notifications",
   "version": "0.1.0",
-  "description": "React Native module for the Pushy notifications service.",
+  "description": "React Native module for the Pushy remote notifications service.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,7 @@
   "author": "Joe Leonard <joeleonard@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "react-native": "^0.41.2"
+    "react-native": ">=0.40.0"
   },
   "dependencies": {
     "babel-eslint": "^7.2.2",

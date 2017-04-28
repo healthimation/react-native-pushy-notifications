@@ -89,6 +89,18 @@
       -keep class org.eclipse.paho.client.mqttv3.** { *; }
     ```
 
+#### iOS
+1. AppDelegate.m
+  ```objc
+  #import "RNPushyNotifications.h"
+  //...
+  - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //...
+    [RNPushyNotifications getInitialNotificationFromOptions:launchOptions];
+    //...
+  }
+  ```
+
 ## Usage
 ```javascript
 import RNPushyNotifications from 'react-native-pushy-notifications'
