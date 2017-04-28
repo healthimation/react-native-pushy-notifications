@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
     pushy = [[Pushy alloc]init:RCTSharedApplication()];
 
     [pushy setNotificationHandler:^(NSDictionary *data, void (^completionHandler)(UIBackgroundFetchResult)) {
-      NSMutableDictionary *notification = [data mutableCopy];
+      NSMutableDictionary *notification = [[NSMutableDictionary alloc] initWithDictionary: data];
 
       // Print notification payload data
       NSLog(@"Received notification: %@", notification);
@@ -54,6 +54,22 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
         [notification setObject:@NO forKey:USER_INTERACTION];
       } else {
         [notification setObject:@YES forKey:USER_INTERACTION];
+      }
+
+      //Overwrite the title/message values with translations if applicable...
+      if (data[@"aps"]) {
+        NSDictionary *aps = [data objectForKey:@"aps"];
+        if (aps[@"alert"]) {
+          NSDictionary *alert = [aps objectForKey:@"alert"];
+          if (alert[@"title-loc-key"]) {
+            NSString *titleLocKey = [alert valueForKey:@"title-loc-key"];
+            [notification setObject:NSLocalizedString(titleLocKey, @"") forKey:@"title"];
+          }
+          if (alert[@"loc-key"]) {
+            NSString *locKey = [alert valueForKey:@"loc-key"];
+            [notification setObject:NSLocalizedString(locKey, @"") forKey:@"message"];
+          }
+        }
       }
 
       [notification setObject:@NO forKey:INITIAL_NOTIFICATION];

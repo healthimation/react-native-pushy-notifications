@@ -10,5 +10,5 @@
 @interface RNPushyNotifications : NSObject <RCTBridgeModule>
 
   + (void) getInitialNotificationFromOptions:(NSDictionary *)launchOptions;
-
+  
 @end
