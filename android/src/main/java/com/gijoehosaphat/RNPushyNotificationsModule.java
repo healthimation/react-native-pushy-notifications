@@ -163,6 +163,7 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
 
   @Override
   public void onHostPause() {
+    RNPushyNotificationsModule.isActive = false;
   }
 
   @Override
