@@ -7,6 +7,7 @@ import android.util.Log;
 import android.os.AsyncTask;
 import android.content.Intent;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -21,6 +22,7 @@ import me.pushy.sdk.Pushy;
 import me.pushy.sdk.util.exceptions.PushyException;
 
 import java.util.Set;
+import java.util.Locale;
 
 public class RNPushyNotificationsModule extends ReactContextBaseJavaModule implements AsyncResponse, LifecycleEventListener {
   public static final String TAG = "RNPushyNotifications";
@@ -163,7 +165,7 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
 
   @Override
   public void onHostPause() {
-    RNPushyNotificationsModule.isActive = false;
+    // RNPushyNotificationsModule.isActive = false;
   }
 
   @Override
@@ -189,6 +191,27 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
     } else {
       params = Arguments.createMap();
     }
+
+    try {
+      Resources res = reactContext.getResources();
+      String packageName = reactContext.getPackageName();
+      Locale currentLocale = res.getConfiguration().locale;
+      String language = currentLocale.getLanguage();
+      Log.d(TAG, language);
+      String translationKey = intent.getStringExtra("translation_key");
+      Log.d(TAG, translationKey);
+      int translationResId = res.getIdentifier(translationKey, "array", packageName);
+      Log.d(TAG, Integer.toString(translationResId));
+      String[] translations = res.getStringArray(translationResId);
+      //We group these into `string-array`s 0 == title, 1 == message
+      if (translations != null && translations.length == 2) {
+        params.putString("title", translations[0]);
+        params.putString("message", translations[1]);
+      }
+    } catch (Exception ex) {
+      Log.e(TAG, ex.getMessage());
+    }
+
     WritableMap wMap = Arguments.createMap();
     wMap.putString("action", intent.getAction());
     params.putMap("intent", wMap);
