@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		665F0B9E1EA82E940088A613 /* PushySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 665F0B9D1EA82E940088A613 /* PushySDK.framework */; };
-		665F0BA11EA82EA60088A613 /* PushySDK-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 665F0BA01EA82EA60088A613 /* PushySDK-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		66E7AAC51EB901D40084B068 /* PushySDK-Swift.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 665F0BA01EA82EA60088A613 /* PushySDK-Swift.h */; };
 		B3E7B58A1CC2AC0600A0062D /* RNPushyNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNPushyNotifications.m */; };
 /* End PBXBuildFile section */
 
@@ -19,6 +19,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				66E7AAC51EB901D40084B068 /* PushySDK-Swift.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,24 +74,12 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		665F0B9F1EA82E9C0088A613 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				665F0BA11EA82EA60088A613 /* PushySDK-Swift.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		58B511DA1A9E6C8500147676 /* RNPushyNotifications */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNPushyNotifications" */;
 			buildPhases = (
 				58B511D71A9E6C8500147676 /* Sources */,
-				665F0B9F1EA82E9C0088A613 /* Headers */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
 			);
