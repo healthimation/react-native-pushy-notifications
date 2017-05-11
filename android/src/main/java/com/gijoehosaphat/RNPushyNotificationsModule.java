@@ -117,7 +117,6 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
         intent.putExtra(USER_INTERACTION, true);
         intent.putExtra(INITIAL_NOTIFICATION, true);
         RNPushyNotificationsModule.sendEvent(intent);
-        Log.d(TAG, "Initial notification event sent.");
       }
       promise.resolve(result.deviceToken);
     }
@@ -152,7 +151,6 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
   @Override
   public void onHostResume() {
     RNPushyNotificationsModule.isActive = true;
-    Log.d(TAG, "isActive set to true.");
 
     Activity activity = getCurrentActivity();
     if (activity != null) {
@@ -165,13 +163,12 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
 
   @Override
   public void onHostPause() {
-    // RNPushyNotificationsModule.isActive = false;
+
   }
 
   @Override
   public void onHostDestroy() {
     RNPushyNotificationsModule.isActive = false;
-    Log.d(TAG, "isActive set to false.");
   }
 
   public static void sendEvent(Intent intent) {
@@ -197,11 +194,8 @@ public class RNPushyNotificationsModule extends ReactContextBaseJavaModule imple
       String packageName = reactContext.getPackageName();
       Locale currentLocale = res.getConfiguration().locale;
       String language = currentLocale.getLanguage();
-      Log.d(TAG, language);
       String translationKey = intent.getStringExtra("translation_key");
-      Log.d(TAG, translationKey);
       int translationResId = res.getIdentifier(translationKey, "array", packageName);
-      Log.d(TAG, Integer.toString(translationResId));
       String[] translations = res.getStringArray(translationResId);
       //We group these into `string-array`s 0 == title, 1 == message
       if (translations != null && translations.length == 2) {
