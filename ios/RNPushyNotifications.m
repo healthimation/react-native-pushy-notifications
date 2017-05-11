@@ -19,7 +19,7 @@ NSDictionary *initialNotification;
 @synthesize bridge = _bridge;
 
 - (dispatch_queue_t)methodQueue {
-    return dispatch_get_main_queue();
+  return dispatch_get_main_queue();
 }
 
 RCT_EXPORT_MODULE();
@@ -43,19 +43,20 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     pushy = [[Pushy alloc]init:RCTSharedApplication()];
-
+    __block BOOL hasResolved = NO;
+    
     [pushy setNotificationHandler:^(NSDictionary *data, void (^completionHandler)(UIBackgroundFetchResult)) {
       NSMutableDictionary *notification = [[NSMutableDictionary alloc] initWithDictionary: data];
-
+      
       // Print notification payload data
       NSLog(@"Received notification: %@", notification);
-
+      
       if (RCTSharedApplication().applicationState == UIApplicationStateActive) {
         [notification setObject:@NO forKey:USER_INTERACTION];
       } else {
         [notification setObject:@YES forKey:USER_INTERACTION];
       }
-
+      
       //Overwrite the title/message values with translations if applicable...
       if (data[@"aps"]) {
         NSDictionary *aps = [data objectForKey:@"aps"];
@@ -71,29 +72,35 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
           }
         }
       }
-
+      
       [notification setObject:@NO forKey:INITIAL_NOTIFICATION];
-
+      
       [self sendEvent:notification];
-
+      
       // You must call this completion handler when you finish processing
       // the notification (after fetching background data, if applicable)
       completionHandler(UIBackgroundFetchResultNewData);
     }];
-
+    
     [pushy register:^(NSError *error, NSString* deviceToken) {
       if (error != nil) { // Handle registration errors
         NSLog (@"Registration failed: %@", error);
-        reject(@"registration_failed", @"Registration failed: ", error);
+        if (!hasResolved){
+          hasResolved = YES;
+          reject(@"registration_failed", @"Registration failed: ", error);
+        }
         return ;
       }
-
+      
       // Print device token to console
       NSLog(@"Pushy device token: %@", deviceToken);
-
-      resolve(deviceToken);
+      
+      if (!hasResolved){
+        hasResolved = YES;
+        resolve(deviceToken);
+      }
     }];
-
+    
     //This may have been set by a call you put in AppDelegate...
     if (initialNotification) {
       NSLog(@"initialNotification: %@", initialNotification);
@@ -111,14 +118,14 @@ RCT_EXPORT_METHOD(configure:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
 RCT_EXPORT_METHOD(subscribe:(NSString *)topic resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {
     [pushy subscribeWithTopic:topic handler:^(NSError *error) {
-        if (error != nil) { // Handle errors
-          NSLog(@"Subscribe failed: %@", error);
-          reject(@"subscribe_failed", @"Subscribe failed: ", error);
-          return;
-        }
-        // Otherwise, subscribe successful
-        resolve(@YES);
-        NSLog(@"Subscribed to topic successfully");
+      if (error != nil) { // Handle errors
+        NSLog(@"Subscribe failed: %@", error);
+        reject(@"subscribe_failed", @"Subscribe failed: ", error);
+        return;
+      }
+      // Otherwise, subscribe successful
+      resolve(@YES);
+      NSLog(@"Subscribed to topic successfully");
     }];
   } @catch (NSException *exception) {
     reject(@"subsctibe_failed", @"Subscribe failed: ", exception);
