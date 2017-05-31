@@ -1,6 +1,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.gijoehosaphat">
-
+  <application>
+    <service android:enabled="true" android:name=".InactiveNotificationHandlerTaskService"></service>
+  </application>
 </manifest>
-  
