@@ -1,6 +1,6 @@
 
 #import "RNPushyNotifications.h"
-#import "PushySDK-Swift.h"
+#import "Pushy-Swift.h"
 
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>

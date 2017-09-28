@@ -1,0 +1,11 @@
+framework module Pushy {
+  umbrella header "Pushy-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module Pushy.Swift {
+    header "Pushy-Swift.h"
+    requires objc
+}
