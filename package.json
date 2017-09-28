@@ -1,6 +1,6 @@
 {
   "name": "react-native-pushy-notifications",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "React Native module for the Pushy remote notifications service.",
   "main": "index.js",
   "scripts": {
