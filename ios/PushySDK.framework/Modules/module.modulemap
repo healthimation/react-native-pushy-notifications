@@ -1,3 +1,0 @@
-framework module PushySDK {
-    header "PushySDK-Swift.h"
-}

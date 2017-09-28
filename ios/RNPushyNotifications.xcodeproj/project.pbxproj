@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		665F0B9E1EA82E940088A613 /* PushySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 665F0B9D1EA82E940088A613 /* PushySDK.framework */; };
-		66E7AAC51EB901D40084B068 /* PushySDK-Swift.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 665F0BA01EA82EA60088A613 /* PushySDK-Swift.h */; };
+		665F0B9E1EA82E940088A613 /* Pushy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 665F0B9D1EA82E940088A613 /* Pushy.framework */; };
+		66E7AAC51EB901D40084B068 /* Pushy-Swift.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 665F0BA01EA82EA60088A613 /* Pushy-Swift.h */; };
 		B3E7B58A1CC2AC0600A0062D /* RNPushyNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNPushyNotifications.m */; };
 /* End PBXBuildFile section */
 
@@ -19,7 +19,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				66E7AAC51EB901D40084B068 /* PushySDK-Swift.h in CopyFiles */,
+				66E7AAC51EB901D40084B068 /* Pushy-Swift.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -27,8 +27,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNPushyNotifications.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNPushyNotifications.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		665F0B9D1EA82E940088A613 /* PushySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PushySDK.framework; sourceTree = "<group>"; };
-		665F0BA01EA82EA60088A613 /* PushySDK-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PushySDK-Swift.h"; path = "PushySDK.framework/Headers/PushySDK-Swift.h"; sourceTree = "<group>"; };
+		665F0B9D1EA82E940088A613 /* Pushy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Pushy.framework; sourceTree = "<group>"; };
+		665F0BA01EA82EA60088A613 /* Pushy-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Pushy-Swift.h"; path = "Pushy.framework/Headers/Pushy-Swift.h"; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNPushyNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNPushyNotifications.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNPushyNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNPushyNotifications.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				665F0B9E1EA82E940088A613 /* PushySDK.framework in Frameworks */,
+				665F0B9E1EA82E940088A613 /* Pushy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +56,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				665F0BA01EA82EA60088A613 /* PushySDK-Swift.h */,
+				665F0BA01EA82EA60088A613 /* Pushy-Swift.h */,
 				B3E7B5881CC2AC0600A0062D /* RNPushyNotifications.h */,
 				B3E7B5891CC2AC0600A0062D /* RNPushyNotifications.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -67,7 +67,7 @@
 		665F0B9C1EA82E940088A613 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				665F0B9D1EA82E940088A613 /* PushySDK.framework */,
+				665F0B9D1EA82E940088A613 /* Pushy.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,6 +212,7 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -228,6 +229,7 @@
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
